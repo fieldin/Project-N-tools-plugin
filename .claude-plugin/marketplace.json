@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "Project-N-tools-plugin",
+  "description": "Firmware build, flash, device ID, and version release skills for Project N",
+  "owner": {
+    "name": "Fieldin",
+    "url": "https://github.com/fieldin"
+  },
+  "plugins": [
+    {
+      "name": "project-n-tools",
+      "description": "Firmware build, flash, device ID, and version release skills for Project N",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
