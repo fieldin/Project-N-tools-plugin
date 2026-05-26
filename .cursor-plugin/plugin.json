@@ -1,0 +1,7 @@
+{
+  "name": "project-n-tools",
+  "displayName": "Project N Tools",
+  "description": "Firmware build, flash, device ID, and version release skills for Project N",
+  "version": "1.0.0",
+  "skills": "./skills/"
+}
