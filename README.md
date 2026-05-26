@@ -5,7 +5,11 @@ Claude Code / Cursor plugin for Project N firmware operations.
 ## Installation
 
 ```bash
-claude plugin install https://github.com/fieldin/Project-N-tools-plugin
+# One-time: add the marketplace
+claude plugin marketplace add https://github.com/fieldin/Project-N-tools-plugin
+
+# Then install
+claude plugin install project-n-tools@Project-N-tools-plugin
 ```
 
 ## Skills
