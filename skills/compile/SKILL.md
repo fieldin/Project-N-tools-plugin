@@ -44,13 +44,13 @@ Collect these from the user's message, or ask if missing:
 **firmware only:**
 ```bash
 cd <PROJECT_ROOT>
-python3 project_tools/build_tools.py build_application -m <TARGET> -p <PROFILE> -t GCC_ARM
+python3 project_tools/build_tools.py build-application -m <TARGET> -p <PROFILE> -t GCC_ARM
 ```
 
 **bootloader only:**
 ```bash
 cd <PROJECT_ROOT>
-python3 project_tools/build_tools.py build_bootloader -m <TARGET> -p <PROFILE> -t GCC_ARM [-o]
+python3 project_tools/build_tools.py build-bootloader -m <TARGET> -p <PROFILE> -t GCC_ARM [-o]
 ```
 (`-o` = override flag, copies compiled bootloader bin into `bootloader/` dir)
 

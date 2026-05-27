@@ -41,15 +41,15 @@ Collect these from the user's message, or ask if missing:
 ```bash
 # flash application
 cd <PROJECT_ROOT>
-python3 project_tools/build_tools.py flash_application -m <TARGET> -p <PROFILE> -t GCC_ARM
+python3 project_tools/build_tools.py flash-application -m <TARGET> -p <PROFILE> -t GCC_ARM
 
 # flash bootloader
 cd <PROJECT_ROOT>
-python3 project_tools/build_tools.py flash_bootloader -m <TARGET> -p <PROFILE> -t GCC_ARM
+python3 project_tools/build_tools.py flash-bootloader -m <TARGET> -p <PROFILE> -t GCC_ARM
 
 # flash device id
 cd <PROJECT_ROOT>
-python3 project_tools/build_tools.py flash_device_id -m <TARGET> -p <PROFILE> -t GCC_ARM
+python3 project_tools/build_tools.py flash-device-id -m <TARGET> -p <PROFILE> -t GCC_ARM
 ```
 
 ## Execution

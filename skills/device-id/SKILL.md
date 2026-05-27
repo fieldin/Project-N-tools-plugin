@@ -37,11 +37,11 @@ Collect these from the user's message, or ask if missing:
 
 ## Command
 
-`create_device_id` prompts interactively for the device ID string. Pass it via stdin:
+`create-device-id` prompts interactively for the device ID string. Pass it via stdin:
 
 ```bash
 cd <PROJECT_ROOT>
-echo "<DEVICE_ID>" | python3 project_tools/build_tools.py create_device_id -m <TARGET> -p <PROFILE> -t GCC_ARM
+echo "<DEVICE_ID>" | python3 project_tools/build_tools.py create-device-id -m <TARGET> -p <PROFILE> -t GCC_ARM
 ```
 
 ## Execution
