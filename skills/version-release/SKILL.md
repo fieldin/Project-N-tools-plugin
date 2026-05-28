@@ -38,6 +38,7 @@ Collect these from the user's message, or ask if missing:
 | `mode` | `firmware`, `bootloader`, `both` | yes |
 | `dry_run` | yes/no | yes — always ask if not mentioned |
 | `mark_release` | yes/no | yes — always ask if not mentioned |
+| `mark_release_scope` | `firmware`, `bootloader`, `both` | conditional (see rules below) |
 | `manual_version` | `major.minor.build` | no (omit for auto-increment) |
 | `username` | string | yes — infer from `git config user.name`, or ask |
 | `comment` | string | no (default: empty) |
@@ -47,6 +48,21 @@ Collect these from the user's message, or ask if missing:
 - "firmware" / "bootloader" / "both" → mode
 - "dry run" / "dry-run" → dry_run=yes
 - "mark release" / "mark as release" → mark_release=yes
+- "both versions", "both app and bootloader" → mark_release_scope=both
+- "app only", "firmware only" → mark_release_scope=firmware
+- "bootloader only" → mark_release_scope=bootloader
+
+### Mark-release scope rules
+
+- `-R` / `--mark-release` changes versioning to: **minor + 1, build = 0**.
+- Default scope is **firmware only** (`mark_release_scope=firmware`).
+- If user asks for mark-release and `mode=both`, explicitly confirm whether scope is:
+  - both firmware+bootloader,
+  - firmware only,
+  - bootloader only.
+- If user does not explicitly request a scope, use **firmware only**.
+- If `mode=firmware`, scope is firmware.
+- If `mode=bootloader`, scope is bootloader.
 
 **Getting username:**
 ```bash
@@ -58,13 +74,14 @@ Use the output as `--username`. If empty, ask the user.
 
 ```bash
 cd <PROJECT_ROOT>
-python3 project_tools/version_release_cli.py \
+python3 -m project_tools.version_release_cli \
   --targets <comma-separated e.g. SML,FX> \
   --mode <firmware|bootloader|both> \
   --username "<USERNAME>" \
   [--comment "<COMMENT>"] \
   [--dry-run] \
-  [--mark-release] \
+  [-R|--mark-release] \
+  [--mark-release-scope <firmware|bootloader|both>] \
   [--manual-version <major.minor.build>]
 ```
 
