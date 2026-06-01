@@ -25,8 +25,15 @@ Print this before collecting parameters:
 ```
 Pre-flight:
   [ ] project_tools/.env contains PROJECT_N_MONGO_URI
-  [ ] AWS SSO: will auto-trigger 'aws sso login' if token expired (browser opens)
+  [ ] project_tools/.env contains AWS_PROFILE=PowerUserAccess-838148646721
+  [ ] project_tools/s3.py exists (SSO-based, no hardcoded credentials)
+  [ ] AWS SSO: will auto-trigger 'aws sso login --profile PowerUserAccess-838148646721'
+      if token is expired (browser opens — authorize there)
 ```
+
+**AWS S3 uses SSO — no credentials file.** `project_tools/s3.py` reads `AWS_PROFILE`
+from the environment / `.env` and creates a boto3 session with that profile.
+If the SSO token is expired, the CLI auto-runs `aws sso login` before uploading.
 
 ## Parameters
 
@@ -100,5 +107,6 @@ python3 -m project_tools.version_release_cli \
 
 - Exit code 1: print stderr and stop. Do not retry.
 - "PROJECT_N_MONGO_URI" not set: tell user to add it to `project_tools/.env`.
+- `ModuleNotFoundError: No module named 'project_tools.s3'`: `project_tools/s3.py` is missing — recreate it (SSO-based, reads `AWS_PROFILE` from env).
 - AWS SSO browser opens: inform user to complete login in browser, then re-run.
 - Do not retry automatically.
