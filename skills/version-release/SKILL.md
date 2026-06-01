@@ -45,7 +45,6 @@ Collect these from the user's message, or ask if missing:
 | `mode` | `firmware`, `bootloader`, `both` | yes |
 | `dry_run` | yes/no | yes — always ask if not mentioned |
 | `mark_release` | yes/no | yes — always ask if not mentioned |
-| `mark_release_scope` | `firmware`, `bootloader`, `both` | conditional (see rules below) |
 | `manual_version` | `major.minor.build` | no (omit for auto-increment) |
 | `username` | string | yes — infer from `git config user.name`, or ask |
 | `comment` | string | no (default: empty) |
@@ -54,28 +53,26 @@ Collect these from the user's message, or ask if missing:
 - "SML" / "FX" in message → targets (can be both)
 - "firmware" / "bootloader" / "both" → mode
 - "dry run" / "dry-run" → dry_run=yes
-- "mark release" / "mark as release" → mark_release=yes
-- "both versions", "both app and bootloader" → mark_release_scope=both
-- "app only", "firmware only" → mark_release_scope=firmware
-- "bootloader only" → mark_release_scope=bootloader
+- "mark release" / "mark as release" / "new minor" → mark_release=yes
 
-### Mark-release scope rules
+### Mark-release (`-R`) rules
 
-- `-R` / `--mark-release` changes versioning to: **minor + 1, build = 0**.
-- Default scope is **firmware only** (`mark_release_scope=firmware`).
-- If user asks for mark-release and `mode=both`, explicitly confirm whether scope is:
-  - both firmware+bootloader,
-  - firmware only,
-  - bootloader only.
-- If user does not explicitly request a scope, use **firmware only**.
-- If `mode=firmware`, scope is firmware.
-- If `mode=bootloader`, scope is bootloader.
+- `--mark-release` changes versioning to: **minor + 1, build = 0** (instead of build + 1).
+- **Scope is determined by `--mode`** — the CLI has no separate scope flag:
+  - `mode=firmware` → only firmware minor bumps
+  - `mode=bootloader` → only bootloader minor bumps
+  - `mode=both` → **both** firmware and bootloader minor bump independently
+- To bump minor for only one when releasing both, run two separate commands with `mode=firmware` and `mode=bootloader`.
 
 **Getting username:**
 ```bash
 git config user.name
 ```
 Use the output as `--username`. If empty, ask the user.
+
+## Workflow: always dry-run first
+
+Before executing a real release, run with `--dry-run` to show the user the exact versions that will be written. The dry run is fast (no build) and shows current → next version for each target. Only proceed to the real release after user confirms.
 
 ## Command
 
@@ -87,17 +84,28 @@ python3 -m project_tools.version_release_cli \
   --username "<USERNAME>" \
   [--comment "<COMMENT>"] \
   [--dry-run] \
-  [-R|--mark-release] \
-  [--mark-release-scope <firmware|bootloader|both>] \
+  [--mark-release] \
   [--manual-version <major.minor.build>]
 ```
+
+**Supported flags (verified against CLI):**
+- `--targets` — comma-separated: `SML`, `FX`, or `SML,FX`
+- `--mode` — `firmware`, `bootloader`, or `both`
+- `--username` — required
+- `--dry-run` — simulate without writing to Mongo/S3/Slack
+- `--mark-release` / `-R` — minor bump instead of build bump
+- `--manual-version` — override auto-increment (e.g. `1.2.3`)
+- `--comment` — optional release note
+
+**`--mark-release-scope` does NOT exist in the CLI** (GUI only). Use separate `--mode` runs instead.
 
 ## Execution
 
 1. Echo the full command before executing (mask nothing — no secrets in args).
-2. Run with Bash tool, timeout=1800000 (30 min — builds take time).
-3. Stream output — do not suppress.
-4. On completion report:
+2. **Dry run first** — confirm versions with user before the real release.
+3. Run real release with Bash tool, timeout=1800000 (30 min — includes full firmware build).
+4. Stream output — do not suppress.
+5. On completion report:
    - ✓ or ✗
    - Version string released (visible in log output)
    - S3 upload confirmation (visible in log output)
