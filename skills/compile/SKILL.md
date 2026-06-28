@@ -1,9 +1,9 @@
 ---
 name: compile
 description: >-
-  Compile Project_N firmware for SML or FX targets using build_tools.py.
+  Compile Project_N firmware for SML, FX, or FXN targets using build_tools.py.
   Use when the user says "compile", "build", "compile firmware", "compile bootloader",
-  "compile all", "build SML", "build FX", "build release", "build develop", or any
+  "compile all", "build SML", "build FX", "build FXN", "build release", "build develop", or any
   variant of building/compiling the firmware or bootloader.
 ---
 
@@ -26,7 +26,7 @@ Collect these from the user's message, or ask if missing:
 
 | Parameter | Values | Required for |
 |-----------|--------|--------------|
-| `target` | `SML`, `FX` | always |
+| `target` | `SML`, `FX`, `FXN` | always |
 | `profile` | `develop`, `release` | always |
 | `operation` | `firmware`, `bootloader`, `all` | always |
 | `override` | yes/no | bootloader or all operations only |
@@ -35,7 +35,7 @@ Collect these from the user's message, or ask if missing:
 - "compile firmware" / "build app" → operation=firmware
 - "compile bootloader" → operation=bootloader
 - "compile all" / "build all" / "bootloader+firmware" → operation=all
-- "SML" / "FX" in message → target
+- "SML" / "FX" / "FXN" in message → target
 - "release" / "develop" in message → profile
 - If override not mentioned for bootloader ops → ask: "Override bootloader binary in `bootloader/` dir? (yes/no)"
 

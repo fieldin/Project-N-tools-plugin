@@ -41,7 +41,7 @@ Collect these from the user's message, or ask if missing:
 
 | Parameter | Values | Required |
 |-----------|--------|---------|
-| `targets` | `SML`, `FX`, or both | yes |
+| `targets` | `SML`, `FX`, `FXN`, or any comma-separated combination | yes |
 | `mode` | `firmware`, `bootloader`, `both` | yes |
 | `dry_run` | yes/no | yes — always ask if not mentioned |
 | `mark_release` | yes/no | yes — always ask if not mentioned |
@@ -50,7 +50,7 @@ Collect these from the user's message, or ask if missing:
 | `comment` | string | no (default: empty) |
 
 **Inferring from message:**
-- "SML" / "FX" in message → targets (can be both)
+- "SML" / "FX" / "FXN" in message → targets (can be multiple)
 - "firmware" / "bootloader" / "both" → mode
 - "dry run" / "dry-run" → dry_run=yes
 - "mark release" / "mark as release" / "new minor" → mark_release=yes
@@ -79,7 +79,7 @@ Before executing a real release, run with `--dry-run` to show the user the exact
 ```bash
 cd <PROJECT_ROOT>
 python3 -m project_tools.version_release_cli \
-  --targets <comma-separated e.g. SML,FX> \
+  --targets <comma-separated e.g. SML,FX,FXN> \
   --mode <firmware|bootloader|both> \
   --username "<USERNAME>" \
   [--comment "<COMMENT>"] \
@@ -89,7 +89,7 @@ python3 -m project_tools.version_release_cli \
 ```
 
 **Supported flags (verified against CLI):**
-- `--targets` — comma-separated: `SML`, `FX`, or `SML,FX`
+- `--targets` — comma-separated: `SML`, `FX`, `FXN`, or combinations such as `SML,FX,FXN`
 - `--mode` — `firmware`, `bootloader`, or `both`
 - `--username` — required
 - `--dry-run` — simulate without writing to Mongo/S3/Slack
