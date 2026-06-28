@@ -25,12 +25,12 @@ Collect these from the user's message, or ask if missing:
 
 | Parameter | Values | Required |
 |-----------|--------|---------|
-| `target` | `SML`, `FX` | always |
+| `target` | `SML`, `FX`, `FXN` | always |
 | `profile` | `develop`, `release` | always |
 | `device_id` | string e.g. `sml_test_1` | always |
 
 **Inferring from message:**
-- "SML" / "FX" in message → target
+- "SML" / "FX" / "FXN" in message → target
 - "release" / "develop" in message → profile (default: develop if not specified)
 - Any quoted string or word after "device id" / "device-id" → device_id
 - If device_id not clear, ask: "What device ID string should I use? (e.g. sml_test_1)"

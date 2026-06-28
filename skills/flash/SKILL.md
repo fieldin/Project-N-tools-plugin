@@ -26,13 +26,13 @@ Set the directory where `project_tools/build_tools.py` was found as `PROJECT_ROO
 
 | Parameter | Values | Required for |
 |-----------|--------|--------------|
-| `target` | `SML`, `FX` | always |
+| `target` | `SML`, `FX`, `FXN` | always |
 | `profile` | `develop`, `release` | always |
 | `what` | `all` (default), `application`, `bootloader`, `device-id` | always |
 
 **Default behavior: `what=all`** — flashes the full merged image (`Project_N.bin` = bootloader + header + application) at `0x08000000`. This matches the mbed-tools VSCode extension's flash button exactly:
 
-1. Erase the flash-flag sector (`0x081C0000` SML / `0x080F0000` FX)
+1. Erase the flash-flag sector (`0x081C0000` SML / `0x080F0000` FX/FXN)
 2. Write `0x01` at `FLASH_FLAG_ADDR` — signals "freshly flashed" to the bootloader (distinguishes a fresh flash from an OTA update)
 3. Load `Project_N.bin` with `--connect under-reset` at frequency `1800000`
 
@@ -46,7 +46,7 @@ The flag byte is read by the bootloader on boot (`main.cpp:1481`) and logged as 
 - "flash device id" / "flash device-id" → what=device-id
 
 **Inferring target/profile:**
-- "SML" / "FX" in message → target
+- "SML" / "FX" / "FXN" in message → target
 - "release" / "develop" in message → profile (default: develop)
 
 If `what` is ambiguous (e.g. user previously did app-only build and now says just "flash"), ask: "Flash full image (bootloader + header + app) or application-only?"

@@ -16,10 +16,10 @@ claude plugin install project-n-tools@Project-N-tools-plugin
 
 | Skill | Trigger examples |
 |-------|-----------------|
-| `project-n-tools:compile` | "compile firmware SML develop", "build bootloader FX release" |
-| `project-n-tools:flash` | "flash application SML", "flash bootloader FX release" |
-| `project-n-tools:device-id` | "create device id sml_test_1 SML develop" |
-| `project-n-tools:version-release` | "release version firmware SML FX" |
+| `project-n-tools:compile` | "compile firmware SML develop", "build bootloader FXN release" |
+| `project-n-tools:flash` | "flash application SML", "flash bootloader FXN release" |
+| `project-n-tools:device-id` | "create device id fxn_test_1 FXN develop" |
+| `project-n-tools:version-release` | "release version firmware SML FX FXN" |
 
 ## Requirements
 
