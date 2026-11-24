@@ -21,5 +21,10 @@ won't work there before writing the ticket.
 
 With a local clone: `git -C <clone> fetch origin <base>` then `git -C <clone> show origin/<base>:<path>`
 and `git -C <clone> grep -n <pattern> origin/<base> -- <path>`.
-Without one: `gh api repos/fieldin/<repo>/contents/<path>?ref=<base>` (base64 `content`) or
-`gh search code --repo fieldin/<repo> <pattern>`.
+Without one (never `gh search code`: it only searches the default branch, which for `Project_N` is
+`master` and for `Project_N_bootloader` is `main`, not the base):
+- list paths: `gh api "repos/fieldin/<repo>/git/trees/<base>?recursive=1" --jq '.tree[].path'`
+- read a file: `gh api "repos/fieldin/<repo>/contents/<path>?ref=<base>" --jq .content | base64 -d`
+- or, to search many files: `git clone --depth 1 --branch <base> https://github.com/fieldin/<repo>.git <tmpdir>`
+  and `git -C <tmpdir> grep -n <pattern>`; delete the temp dir afterwards.
+Quote URLs with `?` (zsh treats it as a glob).

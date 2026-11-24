@@ -58,26 +58,33 @@ Files next to this one: `templates.md` (ticket structure), `labels.md` (the only
 6. **Status.** For each non-Epic ticket ask: `Backlog or Ready for Agent? Recommended: Backlog,
    because nothing starts until someone moves it.` (Ready only if the person is sure the ticket is
    complete and the bench is free.) **Epics always stay in Backlog**; agents never run an Epic.
-7. **Create** with the person's Atlassian connector (never any bot token), project `NPD`:
+7. **Create** with the person's Atlassian connector (never any bot token), project `NPD`, always
+   with `contentFormat: "markdown"`:
    - Epic first (`createJiraIssue`, type Epic), then each child with `parent` = the epic key.
-   - Then the order: `createIssueLink` with type `Blocks` (the prerequisite blocks the next one).
-   - Then the chosen status (`getTransitionsForJiraIssue` + `transitionJiraIssue`).
+   - Then the order: `createIssueLink` with type `Blocks`, **`inwardIssue` = the prerequisite (the
+     blocker), `outwardIssue` = the ticket that waits for it**.
+   - If any create or link call fails, **stop**: set no statuses (everything stays in Backlog), tell
+     the person what was created and what failed. A child must never reach Ready without its link.
+   - Only then the chosen statuses (`getTransitionsForJiraIssue` + `transitionJiraIssue`).
    - Print each key with its link and its status.
 
 ## Mode: improve
 
 Given a key (`NPD-<n>`):
 
-1. Read the ticket and its comments (`getJiraIssue`). Score it against `templates.md`: list missing
-   sections, untestable acceptance criteria, missing verify steps, wrong type, labels not in
-   `labels.md`.
+1. Read the ticket and its comments (`getJiraIssue`). If it is in **Ready for Agent**, move it to
+   **Backlog right away** and tell the person ("parked in Backlog while we improve it; it goes back to
+   Ready at the end"), so an agent can't start on the old text during the interview. Score it against
+   `templates.md`: list missing sections, untestable acceptance criteria, missing verify steps, wrong
+   type, labels not in `labels.md`.
 2. Run the code check (create step 2) for what the ticket touches.
 3. Interview only for the gaps, each question with a recommendation; contradictions first.
 4. Show a before / after preview. Apply only after approval.
-5. Apply, depending on the ticket's status:
-   - **Backlog / To Do:** update description and fields (`editJiraIssue`).
-   - **Ready for Agent:** move it to Backlog first, update, then move it back to Ready for Agent, so
-     an agent never starts on the old text.
+5. **Re-read the status** (`getJiraIssue`) right before applying; it may have changed during the
+   interview. Then apply, depending on that status:
+   - **Backlog / To Do:** update description and fields (`editJiraIssue`, `contentFormat:
+     "markdown"`). **Never send `assignee`** unless the person approved an owner change in the
+     preview. If you parked it from Ready in step 1, move it back to Ready for Agent now.
    - **In Progress / Waiting for Input / In Review / Blocked:** don't rewrite the description; add
      one comment with the suggested additions, so the agent's thread stays intact.
    - **Done:** don't change it; suggest a new ticket instead.
@@ -87,6 +94,7 @@ Given a key (`NPD-<n>`):
 ## Never
 
 - Never close, delete or move a ticket past Ready for Agent.
+- Never change a ticket's assignee unless the person approved it in the preview.
 - Never put an Epic in Ready for Agent.
 - Never invent a label, a repo branch or a bench step: take them from the files above and the repo.
 - Never file a ticket for someone else without saying who the owner will be in the preview.
