@@ -22,6 +22,25 @@ Error: Not inside Project_N repo. Navigate to the Project_N root directory and r
 ```
 Set the directory where `project_tools/build_tools.py` was found as `PROJECT_ROOT`. Run all commands from `PROJECT_ROOT`.
 
+## Bench reservation (shared bench device)
+
+Skip this section if `command -v bench` fails: only machines running dev-crew have it.
+
+The bench device (FXN_6) is shared by people, Claude sessions and the dev-crew agents. "In use" is
+declared, not detected from serial, so reserve it before flashing:
+
+1. If `DEVCREW_BENCH_OWNER` is set, you are a dev-crew agent and the bench is already reserved for
+   you: skip the rest of this section.
+2. Run `bench status`. If it prints `RESERVED by <someone else>` or `BUSY`, **stop**: tell the user who
+   holds the bench and until when, and don't flash. Never `bench release --force` someone else's
+   reservation unless the user explicitly asks.
+3. If it's `FREE` (or reserved by you), reserve it first:
+   `bench reserve "<user>: <what you are testing>" --hours <expected duration, default 2>`.
+   Keep the same owner text for the whole session; reserving again with it extends the time.
+4. Keep the reservation across the whole test (flash, tests, device commands). When the user is done
+   with the device, run `bench release "<same owner text>"`. If you're not sure they're done, ask;
+   an unreleased reservation expires on its own.
+
 ## Parameters
 
 | Parameter | Values | Required for |
