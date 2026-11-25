@@ -34,9 +34,17 @@ Examples: `bench: add docs/BENCH.md for FXN_6` · `connectivity: retry LTE attac
 1. <testable statement; Given/When/Then where it fits>
 2. ...
 
-## How to verify
-1. <exact steps with the repo's own tools and bench rules, e.g. compile FXN develop, flash-all,
-   frag serial test on the bench pty, MQTT only against the dev broker>
+## Bench verification
+Time budget: <N> min of bench time per full run (smoke is ~5 min; add each row's timeout)
+
+| # | Check | How | Pass when | Timeout | On bench |
+|---|---|---|---|---|---|
+| 1 | Standard suite | `bench-run smoke` | all steps PASS | 8 min | yes |
+| 2 | <ticket-specific check> | <`bench-run observe --until '<log line>'`, `bench-run send <url> k=v`, or an exact command> | <exact log line, count or value> | <min> | yes / manual: <who does what> |
+
+Rows marked manual need a person at the bench (ignition, antenna, SIM, power); the agent asks for
+them before it starts, not after. On re-runs after a review fix the agent runs row 1 plus the rows
+that exercise the changed code.
 
 or: n/a: <why no bench test, e.g. docs only>
 
@@ -87,7 +95,7 @@ As a <role>, I want <capability>, so that <benefit>.
 ```
 
 ### Epic
-No "How to verify" (children carry their own); the skeleton's other sections stay.
+No "Bench verification" (children carry their own); the skeleton's other sections stay.
 ```markdown
 ## Problem statement
 <What is wrong or missing today, for whom.>

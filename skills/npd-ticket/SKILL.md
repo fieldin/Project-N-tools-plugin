@@ -46,7 +46,11 @@ Files next to this one: `templates.md` (ticket structure), `labels.md` (the only
      Epic (needs splitting).
    - Per-type details from `templates.md` (Bug: reproduce steps, expected vs actual, environment,
      evidence, severity; Story: the user story; Task: definition of done).
-   - Acceptance criteria and how to verify (use the repo's own tools and bench rules).
+   - Acceptance criteria and the Bench verification table (`templates.md`): for every acceptance
+     criterion a row with a `bench-run` profile or exact command, the exact pass condition and a
+     timeout. Ask whether each check can run unattended on FXN_6; anything needing a hand at the
+     bench (ignition, antenna, SIM, power) is a **manual** row naming who does it. Recommend a time
+     budget from the timeouts.
    - Scope Out (what must not change).
    - Owner (assignee): default the person using the skill; another person only if named (look up
      with `lookupJiraAccountId`).
@@ -75,8 +79,9 @@ Given a key (`NPD-<n>`):
 1. Read the ticket and its comments (`getJiraIssue`). If it is in **Ready for Agent**, move it to
    **Backlog right away** and tell the person ("parked in Backlog while we improve it; it goes back to
    Ready at the end"), so an agent can't start on the old text during the interview. Score it against
-   `templates.md`: list missing sections, untestable acceptance criteria, missing verify steps, wrong
-   type, labels not in `labels.md`.
+   `templates.md`: list missing sections, untestable acceptance criteria, acceptance criteria with no
+   Bench verification row, rows without a pass condition or timeout, checks that need a person at the
+   bench but aren't marked manual, wrong type, labels not in `labels.md`.
 2. Run the code check (create step 2) for what the ticket touches.
 3. Interview only for the gaps, each question with a recommendation; contradictions first.
 4. Show a before / after preview. Apply only after approval.
