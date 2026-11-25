@@ -35,11 +35,11 @@ Examples: `bench: add docs/BENCH.md for FXN_6` · `connectivity: retry LTE attac
 2. ...
 
 ## Bench verification
-Time budget: <N> min of bench time per full run (smoke is ~5 min; add each row's timeout)
+Time budget: <N> min of bench time per full run (smoke is 2–4 min; add each row's timeout)
 
 | # | Check | How | Pass when | Timeout | On bench |
 |---|---|---|---|---|---|
-| 1 | Standard suite | `bench-run smoke` | all steps PASS | 8 min | yes |
+| 1 | Standard suite | `bench-run smoke` | all steps PASS | 6 min | yes |
 | 2 | <ticket-specific check> | <`bench-run observe --until '<log line>'`, `bench-run send <url> k=v`, or an exact command> | <exact log line, count or value> | <min> | yes / manual: <who does what> |
 
 Rows marked manual need a person at the bench (ignition, antenna, SIM, power); the agent asks for
