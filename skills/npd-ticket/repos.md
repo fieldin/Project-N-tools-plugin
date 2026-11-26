@@ -8,7 +8,7 @@ branch from, never the local clone's current branch.
 | `Project_N` | `fxn_integration` | change (branch, commit, PR) |
 | `Project_N_bootloader` | `fxn_integration` | change (always asks for plan approval first) |
 | `FX-bringup` | `master` | change |
-| `n-project-monitor` | `master` | read only (test harness) |
+| `n-project-monitor` | `master` | change (device dashboard: FastAPI backend + React frontend; a merge deploys nothing) |
 | `logger_client` | `main` | read only (Project_N submodule) |
 | `Fieldin_config_tool` | `master` | not yet (later phase): file the ticket, agents won't pick it up |
 | `logs_receiver` | `main` | not yet (later phase) |
