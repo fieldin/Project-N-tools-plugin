@@ -40,9 +40,13 @@ Time budget: <N> min of bench time per full run (smoke is 2–4 min; add each ro
 | # | Check | How | Pass when | Timeout | On bench |
 |---|---|---|---|---|---|
 | 1 | Standard suite | `bench-run smoke` | all steps PASS | 6 min | yes |
-| 2 | <ticket-specific check> | <`bench-run observe --until '<log line>'`, `bench-run send <url> k=v`, or an exact command> | <exact log line, count or value> | <min> | yes / manual: <who does what> |
+| 2 | <ticket-specific check> | <`bench-run observe --until '<log line>'`, `bench-run send <url> k=v`, `ignition off` / `ignition cycle <on_ms> <off_ms> <n>`, or an exact command> | <exact log line, count or value> | <min> | yes / manual: <who does what> |
 
-Rows marked manual need a person at the bench (ignition, antenna, SIM, power); the agent asks for
+Ignition is automated: `ignition on|off|pulse <ms>|cycle <on_ms> <off_ms> <n>|stop|status` switches
+FXN_6's 12V ignition (default ON, >= 2 s per state, cycle = n x OFF then ON, ends ON). Example row:
+`ignition off`, then `bench-run observe --until 'Event: preparing to sleep'`; `ignition on`, then
+`--until 'Woke from sleep'` | both lines seen | 3 min | yes.
+Rows marked manual need a person at the bench (antenna, SIM, power); the agent asks for
 them before it starts, not after. On re-runs after a review fix the agent runs row 1 plus the rows
 that exercise the changed code.
 

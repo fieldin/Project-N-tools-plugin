@@ -49,7 +49,7 @@ Files next to this one: `templates.md` (ticket structure), `labels.md` (the only
    - Acceptance criteria and the Bench verification table (`templates.md`): for every acceptance
      criterion a row with a `bench-run` profile or exact command, the exact pass condition and a
      timeout. Ask whether each check can run unattended on FXN_6; anything needing a hand at the
-     bench (ignition, antenna, SIM, power) is a **manual** row naming who does it. Recommend a time
+     bench (antenna, SIM, power; not ignition: `ignition` automates it) is a **manual** row naming who does it. Recommend a time
      budget from the timeouts.
    - Scope Out (what must not change).
    - Owner (assignee): default the person using the skill; another person only if named (look up
