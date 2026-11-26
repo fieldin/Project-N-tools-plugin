@@ -96,6 +96,14 @@ Given a key (`NPD-<n>`):
 6. **Keep the assignee.** Only suggest a change (e.g. when it's empty); improving a colleague's
    ticket never makes you its owner.
 
+## Tickets written without this skill
+
+The dev-crew orchestrator applies this skill's improve check when it picks a ticket up (Ready for
+Agent). A ticket that doesn't follow `templates.md` gets no code: the agent posts the rewritten
+ticket and its open questions as a Jira question, and only after the owner replies `approve` does the
+bot account (NPD Agents) replace the description. That approved rewrite is the one write the bot makes
+to a ticket's fields; people still create and improve tickets with their own Jira connection.
+
 ## Never
 
 - Never close, delete or move a ticket past Ready for Agent.
